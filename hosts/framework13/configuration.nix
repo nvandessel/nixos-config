@@ -28,7 +28,10 @@
   services.logind = {
     extraConfig = ''
       HandlePowerKey=suspend
-    '';
+      HandleLidSwitch=suspend
+      HandleLidSwitchDocked=suspend
+      HandleLidSwitchExternalPower=suspend
+      '';
   };
 
   # Printing

@@ -8,13 +8,14 @@
     unzip
 
     git
+    git-lfs
     lazygit
 
     vim
     neovim
-
     tmux
     kitty
+    ripgrep
 
     nodejs
     nodePackages.npm

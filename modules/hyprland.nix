@@ -1,56 +1,75 @@
 { config, pkgs, ... }:
 
 {
-  programs.hyprland.enable = true;
+    programs.hyprland.enable = true;
 
-  # Session variables for Wayland and cursor
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-    XCURSOR_THEME = "Capitaine-Cursors";
-    XCURSOR_SIZE = "48";
-  };
-
-  # xdg-desktop-portal config for Hyprland
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
-    config.common.default = "hyprland";
-  };
-
-  # Greetd setup with tuigreet launching Hyprland
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd ${pkgs.hyprland}/bin/Hyprland";
-        user = "nic";
-      };
+# Session variables for Wayland and cursor
+    environment.sessionVariables = {
+        NIXOS_OZONE_WL = "1";
+        XCURSOR_THEME = "Capitaine-Cursors";
+        XCURSOR_SIZE = "48";
+        GTK_THEME = "Adwaita-dark";
     };
-  };
 
-  # Supporting programs
-  programs.zsh.enable = true;
-  programs.firefox.enable = true;
+# xdg-desktop-portal config for Hyprland
+    xdg.portal = {
+        enable = true;
+        extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+        config.common.default = "hyprland";
+    };
 
-  environment.systemPackages = with pkgs; [
-    waybar
-    rofi-wayland
-    fuzzel
-    swww
-    wl-clipboard
-    xdg-desktop-portal-hyprland
-    xwayland
+# Greetd setup with tuigreet launching Hyprland
+    # services.greetd = {
+    #     enable = true;
+    #     settings = {
+    #         default_session = {
+    #             command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd ${pkgs.hyprland}/bin/Hyprland";
+    #             user = "nic";
+    #         };
+    #     };
+    # };
+    services.greetd = {
+        enable = true;
+        settings = {
+            initial_session = {
+                command = "${pkgs.greetd.gtkgreet}/bin/gtkgreet --config /path/to/greetd/hyprland.conf";
+                user = "greeter";
+            };
+            default_session = {
+                command = "${pkgs.hyprland}/bin/Hyprland";
+                user = "nic";
+            };
+        };
+    };
 
-    hyprlock
+# Supporting programs
+    programs.zsh.enable = true;
+    programs.firefox.enable = true;
 
-    hyprshot
-    grim
-    slurp
-    libnotify
+    environment.systemPackages = with pkgs; [
+        waybar
+        rofi-wayland
+        fuzzel
+        swww
+        wl-clipboard
+        xdg-desktop-portal-hyprland
+        xwayland
 
-    kitty
-    xfce.thunar
+        greetd.gtkgreet
+        cage
+        hyprlock
 
-    capitaine-cursors
-  ];
+        hyprshot
+        grim
+        slurp
+        libnotify
+
+        kitty
+
+        xfce.thunar
+
+        capitaine-cursors
+
+        redshift
+    ];
 }
