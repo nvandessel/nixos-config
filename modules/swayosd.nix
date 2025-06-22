@@ -1,18 +1,22 @@
-{pkgs, lib, ...}: let
-  swayosd = lib.getExe' pkgs.swayosd "swayosd-client";
-in {
-  ...
+{ pkgs, ... }:
 
-  config = {
-    startup = [
-      ...
-      {command = lib.getExe' pkgs.swayosd "swayosd-server";}
-    ];
+{
+    environment.systemPackages = [ pkgs.swayosd ];
+    services.udev.packages = [ pkgs.swayosd ];
 
-    keybindings = {
-      "XF86AudioRaiseVolume" = "exec ${swayosd} --output-volume raise";
-      "XF86AudioLowerVolume" = "exec ${swayosd} --output-volume lower";
-      "XF86AudioMute" = "exec ${swayosd} --output-volume mute-toggle";
+    systemd.services.swayosd-libinput-backend = {
+        description = "SwayOSD LibInput backend for listening to certain keys like CapsLock, ScrollLock, VolumeUp, etc.";
+        documentation = [ "https://github.com/ErikReider/SwayOSD" ];
+        wantedBy = [ "graphical.target" ];
+        partOf = [ "graphical.target" ];
+        after = [ "graphical.target" ];
+
+        serviceConfig = {
+            Type = "dbus";
+            BusName = "org.erikreider.swayosd";
+            ExecStart = "${pkgs.swayosd}/bin/swayosd-libinput-backend";
+            Restart = "on-failure";
+        };
     };
-  };
 }
+

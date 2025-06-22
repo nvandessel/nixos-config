@@ -1,9 +1,9 @@
-{ config, pkgs, inputs, lib, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports = [
+    ./../../modules/swayosd.nix
     ./hardware-configuration.nix
-    ../../modules/swayosd.nix
     inputs.nixos-hardware.nixosModules.framework-13-7040-amd
   ];
 
