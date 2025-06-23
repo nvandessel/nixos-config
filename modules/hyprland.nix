@@ -3,12 +3,15 @@
 {
     programs.hyprland.enable = true;
 
+
 # Session variables for Wayland and cursor
     environment.sessionVariables = {
         NIXOS_OZONE_WL = "1";
-        XCURSOR_THEME = "Capitaine-Cursors";
-        XCURSOR_SIZE = "48";
         GTK_THEME = "Adwaita-dark";
+    };
+    environment.variables = {
+        XCURSOR_THEME = "BreezeX-RosePine-Linux";
+        XCURSOR_SIZE = "24"; # or 16/32/etc
     };
 
 # xdg-desktop-portal config for Hyprland
@@ -68,7 +71,7 @@
 
         xfce.thunar
 
-        capitaine-cursors
+        rose-pine-cursor
 
         redshift
     ];
