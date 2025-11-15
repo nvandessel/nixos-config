@@ -73,6 +73,6 @@
 
         rose-pine-cursor
 
-        redshift
+        hyprsunset
     ];
 }
